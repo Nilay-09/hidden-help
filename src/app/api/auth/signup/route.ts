@@ -41,10 +41,10 @@ export async function POST(request: Request) {
 
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;
-    console.log(password)
+    console.log(password,_,)
 
     return NextResponse.json(userWithoutPassword, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Signup error:", error);
     return NextResponse.json({ error: "Error creating user" }, { status: 500 });
   }
