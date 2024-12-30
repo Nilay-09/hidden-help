@@ -127,7 +127,8 @@ export function ReportForm({ onComplete }: ReportFormProps) {
   };
 
   useEffect(() => {
-    console.log(formData)
+    console.log(formData,"formdata")
+    console.log(coordinates)
   }, [formData])
   
 
@@ -205,7 +206,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           accept="image/*"
           onChange={handleImageUpload}
           className="hidden"
-          // id="image-upload"
+          id="image-upload"
         />
         <label
           htmlFor="image-upload"
