@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { ReportStatus, ReportType } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import { Prisma } from "@prisma/client";
 
+type ReportType = "EMERGENCY" | "NON_EMERGENCY"
+type ReportStatus = "PENDING" | "IN_PROGRESS" | "RESOLVED" | "DISMISSED"
 export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
