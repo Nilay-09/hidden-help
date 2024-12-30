@@ -6,16 +6,22 @@ import { JWT as NextAuthJWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 interface CustomJWT extends NextAuthJWT {
   role: string;
 }
 
-// Use the correct type from Prisma
-function isUser(user: unknown): user is Prisma.UserGetPayload<{}> {
-  return typeof (user as { role: string }).role === "string";
+type User = {
+  id: string;
+  email: string;
+  name?: string;
+  role: string;
+};
+
+function isUser(user: unknown): user is User {
+  return typeof (user as User).role === "string";
 }
+
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
