@@ -1,29 +1,21 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { NextAuthOptions} from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
-import { JWT as NextAuthJWT } from "next-auth/jwt";  // Correct import for JWT
+import { JWT as NextAuthJWT } from "next-auth/jwt";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
-import { User } from '@prisma/client';
-
-// Enum type for Role (matching your Prisma schema)
-enum Role {
-  ADMIN = "ADMIN",
-  USER = "USER",
-  MODERATOR = "MODERATOR",
-}
-
+import { Prisma } from "@prisma/client";
 
 interface CustomJWT extends NextAuthJWT {
-  role: string; 
+  role: string;
 }
 
-function isUser(user: unknown): user is User {
-  return (user as User).role !== undefined; 
+// Use the correct type from Prisma
+function isUser(user: unknown): user is Prisma.UserGetPayload<{}> {
+  return typeof (user as { role: string }).role === "string";
 }
-
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -58,7 +50,7 @@ const authOptions: NextAuthOptions = {
           throw new Error("Incorrect password");
         }
 
-        // Return user with role as enum
+        // Return user with role
         return {
           id: user.id.toString(),
           email: user.email,
@@ -68,11 +60,9 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  
   callbacks: {
     async jwt({ token, user }) {
       if (user && isUser(user)) {
-
         (token as CustomJWT).role = user.role;
       }
       return token;
