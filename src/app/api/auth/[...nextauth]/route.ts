@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { NextAuthOptions, User as NextAuthUser, Session as NextAuthSession} from "next-auth";
-import NextAuth, { Session } from "next-auth";
+import { NextAuthOptions} from "next-auth";
+import NextAuth from "next-auth";
 import { JWT as NextAuthJWT } from "next-auth/jwt";  // Correct import for JWT
 
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -20,8 +20,8 @@ interface CustomJWT extends NextAuthJWT {
   role: string; 
 }
 
-function isUser(user: any): user is User {
-  return user && typeof user.role === 'string';
+function isUser(user: unknown): user is User {
+  return (user as User).role !== undefined; 
 }
 
 
@@ -72,15 +72,14 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user && isUser(user)) {
-        // Now TypeScript knows that user is of type User
-        (token as CustomJWT).role = user.role; // Safely assign role to token
+
+        (token as CustomJWT).role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
-        // Safely assign role from token to session
-        (session.user as any).role = (token as CustomJWT).role;
+        (session.user as { role: string }).role = (token as CustomJWT).role;
       }
       return session;
     },
