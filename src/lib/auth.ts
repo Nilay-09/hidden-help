@@ -26,9 +26,8 @@ declare module "next-auth" {
   }
 }
 
-// Type guard to check if the user has a role
-function isUser(user: any): user is User {
-  return user && typeof user.role === "string";
+function isUser(user: unknown): user is User {
+  return (user as User).role !== undefined; 
 }
 
 export const authOptions: AuthOptions = {
