@@ -9,7 +9,7 @@ import prisma from "@/lib/prisma";
 import { User } from '@prisma/client';
 
 // Enum type for Role (matching your Prisma schema)
-export enum Role {
+enum Role {
   ADMIN = "ADMIN",
   USER = "USER",
   MODERATOR = "MODERATOR",
