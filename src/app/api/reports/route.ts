@@ -52,27 +52,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json(reports);
   } catch (error) {
-    // Handle error with proper type guards
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.error("Failed to fetch reports:", error);
-
-      // More specific error messages
-      if (error.code === "P1001") {
-        return NextResponse.json(
-          { error: "Cannot connect to database. Please try again later." },
-          { status: 503 }
-        );
-      }
-
-      if (error.code === "P2024") {
-        return NextResponse.json(
-          { error: "Database connection timeout. Please try again." },
-          { status: 504 }
-        );
-      }
-    }
-
-    // General error handler
     console.error("Failed to fetch reports:", error);
     return NextResponse.json(
       { error: "Failed to fetch reports" },
