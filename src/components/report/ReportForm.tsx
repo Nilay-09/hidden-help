@@ -15,8 +15,15 @@ const REPORT_TYPES = [
 
 type ReportType = "EMERGENCY" | "NON_EMERGENCY";
 
+interface ReportResult {
+  message: string;
+  reportId: string;
+  success: boolean;
+}
+
+
 interface ReportFormProps {
-  onComplete: (data: any) => void;
+  onComplete: (data: ReportResult) => void;
 }
 
 export function ReportForm({ onComplete }: ReportFormProps) {
@@ -117,7 +124,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
       if (!response.ok) {
         throw new Error(result.error || "Failed to submit report");
       }
-
+      console.log(result,"resresres")
       onComplete(result);
     } catch (error) {
       console.error("Error submitting report:", error);

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select, { SingleValue, StylesConfig } from "react-select";
@@ -8,6 +7,12 @@ interface LocationOption {
   label: string; // Display name
   lat: number;
   lon: number;
+}
+
+interface NominatimPlace {
+  lat: string;
+  lon: string;
+  display_name: string;
 }
 
 // Define the props for the LocationInput component
@@ -62,7 +67,7 @@ export function LocationInput({
         },
       });
 
-      const formattedOptions: LocationOption[] = response.data.map((place: any) => ({
+      const formattedOptions: LocationOption[] = response.data.map((place: NominatimPlace) => ({
         value: `${place.lat},${place.lon}`,
         label: place.display_name,
         lat: parseFloat(place.lat),

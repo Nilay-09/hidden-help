@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -42,7 +41,7 @@ const handler = NextAuth({
           id: user.id.toString(),
           email: user.email,
           name: user.name,
-          role: user.role,
+          role: user.role as any,
         };
       },
     }),
@@ -50,13 +49,13 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
+        (token as any).role = (user as any).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
-        session.user.role = token.role;
+        (session.user as any).role = (token as any).role; 
       }
       return session;
     },
