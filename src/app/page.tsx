@@ -65,7 +65,7 @@ export default function Home() {
         </div>
 
         {/* Features Grid */}
-        <div className="mt-40 grid gap-6 sm:grid-cols-3">
+        <div className="mt-20 grid gap-6 sm:grid-cols-3">
           {[
             {
               title: "Military-Grade Encryption",
@@ -148,7 +148,7 @@ export default function Home() {
         </div>
 
         {/* Stats Section */}
-        <div className="mt-40 rounded-2xl bg-zinc-900 p-8">
+        <div className="mt-20 rounded-2xl bg-zinc-900 p-8">
           <div className="grid gap-y-8 sm:grid-cols-3">
             {[
               { value: "100K+", label: "Reports Filed" },
@@ -166,7 +166,7 @@ export default function Home() {
         </div>
 
         {/* Trust Badge */}
-        <div className="mt-40 mb-20 flex justify-center">
+        <div className="mt-20 mb-20 flex justify-center">
           <div className="inline-flex items-center gap-3 rounded-full bg-zinc-900 px-5 py-2 text-sm text-zinc-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             Trusted by Law Enforcement Nationwide
